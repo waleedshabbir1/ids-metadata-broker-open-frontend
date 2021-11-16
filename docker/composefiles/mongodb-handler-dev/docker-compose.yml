@@ -1,0 +1,54 @@
+version: '3'
+
+volumes:
+  broker-fuseki:
+  broker-esdata:
+  db:
+
+services:
+
+  broker-core:
+    image: registry.gitlab.cc-asp.fraunhofer.de:4567/eis-ids/broker/core
+    volumes:
+      - /etc/idscert/localhost:/etc/cert/
+      #- c:/etc/idscert/localhost:/etc/cert/
+    environment:
+    - SPARQL_ENDPOINT=http://broker-fuseki:3030/connectorData
+    - ELASTICSEARCH_HOSTNAME=broker-elasticsearch
+    - SHACL_VALIDATION=true
+    - DAPS_VALIDATE_INCOMING=false
+    ports:
+    - "8080:8080"
+    depends_on:
+      - "broker-elasticsearch"
+      - "broker-fuseki"
+
+  broker-fuseki:
+    image: registry.gitlab.cc-asp.fraunhofer.de:4567/eis-ids/broker/fuseki
+    environment:
+    - ADMIN_PASSWORD=test
+    ports:
+    - "3030:3030"
+    volumes:
+      - broker-fuseki:/fuseki
+
+  broker-elasticsearch:
+    image: elasticsearch:7.9.3
+    environment:
+    - http.port=9200
+    - http.cors.enabled=true
+    - http.cors.allow-origin=http://localhost:3000
+    - http.cors.allow-headers=*
+    - http.cors.allow-credentials=true
+    - discovery.type=single-node
+    volumes:
+    - broker-esdata:/usr/share/elasticsearch/data
+    ports:
+    - "9200:9200"
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - db:/data/db
+    ports:
+      - "27017:27017"
