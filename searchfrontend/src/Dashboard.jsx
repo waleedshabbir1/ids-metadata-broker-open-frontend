@@ -152,7 +152,7 @@ class Dashboard extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     //the case when both resources and connectors info is in state // TODO
-    if (prevState.resourcesS.length === 0 && this.state.connectorsS.length !== 0) {
+    if (prevState.resourcesS !== undefined && this.state.connectorS !== undefined && prevState.resourcesS.length === 0 && this.state.connectorsS.length !== 0) {
       let { connectorsS, resourcesS } = this.state;
       if (connectorsS.length !== 0 && resourcesS.length !== 0) {
         for (let i = 0; i < resourcesS.length; i++) {
@@ -188,10 +188,12 @@ class Dashboard extends PureComponent {
       //get resources
       getAllResources(this.props.token)
         .then(data => {
-          this.setState({
-            resources: data.length,
-            resourcesS: data
-          })
+          if(data != undefined) {
+            this.setState({
+              resources: data.length,
+              resourcesS: data
+            })
+          }
         })
     } else {
       axios
@@ -321,7 +323,7 @@ class Dashboard extends PureComponent {
     let connectorsWithoutResources = [];
     if (process.env.REACT_APP_USE_SPARQL === 'true') {
       let { connectorsS } = this.state;
-      for (let i = 0; i < connectorsS.length; i++) {
+      for (let i = 0; connectorsS !== undefined && i < connectorsS.length; i++) {
         let connectorS = connectorsS[i].connector;
         if (connectorS) {
           connectorsWithoutResources.push(connectorS);
@@ -343,7 +345,7 @@ class Dashboard extends PureComponent {
     let resources = [];
     if (process.env.REACT_APP_USE_SPARQL === 'true') {
       let { connectorsS } = this.state;
-      for (let i = 0; i < connectorsS.length; i++) {
+      for (let i = 0; connectorsS !== undefined && i < connectorsS.length; i++) {
         let resourcesPerConnector = connectorsS[i].resources;
         if (resourcesPerConnector) {
           resources.push(resourcesPerConnector);
@@ -351,7 +353,7 @@ class Dashboard extends PureComponent {
       }
     } else {
       let { connectors } = this.state;
-      for (let i = 0; i < connectors.length; i++) {
+      for (let i = 0; connectors != undefined && i < connectors.length; i++) {
         let resourcesPerConnector = connectors[i]._source.catalog?.[0].resources;
         if (resourcesPerConnector) {
           resources.push(resourcesPerConnector);
@@ -393,14 +395,14 @@ class Dashboard extends PureComponent {
 
     return (
       <div className="dashboard">
-        <Grid container xs={12} spacing={3}>
+        <Grid container spacing={3}>
           <Grid container item xs={6} spacing={3} alignContent='flex-start'>
             <Grid item xs={4}>
               <Card className={classes.card}>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                   Connectors
                 </Typography>
-                <Typography variant="h5" component="h3" color='primaryColor' style={{ fontWeight: 'bold' }} >
+                <Typography variant="h5" component="h3" color='primary' style={{ fontWeight: 'bold' }} >
                   {process.env.REACT_APP_USE_SPARQL === 'true' && (this.state.connectorsS ? this.state.connectorsS.length : 0)}
                   {process.env.REACT_APP_USE_SPARQL === 'false' && (this.state.connectors ? this.state.connectors.length : 0)}
                 </Typography>
@@ -411,7 +413,7 @@ class Dashboard extends PureComponent {
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                   Resources
                 </Typography>
-                <Typography variant="h5" component="h3" color='primaryColor' style={{ fontWeight: 'bold' }} >
+                <Typography variant="h5" component="h3" color='primary' style={{ fontWeight: 'bold' }} >
                   {this.state.resources}
                 </Typography>
               </Card>
@@ -421,7 +423,7 @@ class Dashboard extends PureComponent {
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                   Participants
                 </Typography>
-                <Typography variant="h5" component="h3" color='primaryColor' style={{ fontWeight: 'bold' }} >
+                <Typography variant="h5" component="h3" color='primary' style={{ fontWeight: 'bold' }} >
                   -
                 </Typography>
               </Card>

@@ -865,6 +865,9 @@ const getResources = (connectorObject, connectorId) => {
     let connectorProperties = connectorObject[connectorId];
 
     //get resourceCatalog with resources - TODO - check if there is only one catalog id per connector
+    if(connectorProperties[RESOURCE_CATALOG_URI] === undefined){
+        return resources;
+    }
     let resourceCatalogId = connectorProperties[RESOURCE_CATALOG_URI][0];
     let resourceCatalog = connectorObject[resourceCatalogId];
     debugger;

@@ -23,10 +23,10 @@ function getModalStyle() {
 const styles = theme => ({
   paper: {
     position: 'absolute',
-    width: theme.spacing.unit * 50,
+    width: theme.spacing(50),
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing(4),
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
       width: '40ch',
@@ -45,7 +45,6 @@ const styles = theme => ({
     color: '#FFF', fontWeight: 'bold', borderRadius: 32,
     boxShadow: 'none',
     backgroundColor: '#666',
-    color: '#FFF',
     '&:hover': {
       backgroundColor: '#999',
       color: '#666',

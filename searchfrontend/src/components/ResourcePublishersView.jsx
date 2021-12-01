@@ -81,7 +81,7 @@ class ResourcePublishersView extends Component {
                         Top 3 Publishers: Number of Resources
         </Typography>
                     <List className="info-list">
-                        {this.state.buckets.slice(0, 3).map((item) => (
+                        {this.state.buckets !== undefined && this.state.buckets.slice(0, 3).map((item) => (
                             <ListItem onClick={() => item.key}>
                                 <ListItemIcon>
                                     <DescriptionRoundedIcon />
