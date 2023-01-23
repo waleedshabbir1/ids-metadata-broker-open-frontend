@@ -32,4 +32,3 @@ See the READMEs in the respective subfolders.
 For any questions or suggestions that cannot be solved via <a href="https://github.com/International-Data-Spaces-Association/ids-metadata-broker-open-frontend/issues">GitHub-Issues</a>, the following contacts are available:
 * [Neha Thawani](https://github.com/NehaThawani44), [Fraunhofer IAIS](https://www.iais.fraunhofer.de/)
 * [Sebastian Bader](https://github.com/sebbader), [Fraunhofer IAIS](https://www.iais.fraunhofer.de/)
-* or send an email to [contact@ids.fraunhofer.de](mailto:contact@ids.fraunhofer.de)
